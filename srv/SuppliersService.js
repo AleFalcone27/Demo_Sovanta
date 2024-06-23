@@ -46,10 +46,37 @@ async function GetSupplier(req) {
     }
 }
 
+async function GetSuppliersByProductCategory() {
+    try {
+        await client.connect();  
+        const db = client.db(db_name);  
+        const collection = db.collection('suppliers'); 
+
+        const results = await collection.aggregate([
+            { $group: { _id: "$productCategory", count: { $sum: 1 } } },
+            { $sort: { count: -1 } }
+        ]).toArray();
+
+        return results.map(result => ({
+            productCategory: result._id,
+            count: result.count
+        }));
+
+    } catch (error) {
+        console.error('Error al obtener proveedores por categoría de producto:', error);
+        throw new Error('Failed to fetch suppliers by product category');
+    } finally {
+        await client.close();
+    }
+}
+
 module.exports = cds.service.impl(function() {
     const { supplier } = this.entities;
     this.on('CREATE', supplier, CreateSupplier);
     this.on('READ', supplier, GetSupplier)
+    this.on('GetSuppliersByProductCategory', async () => {
+        return GetSuppliersByProductCategory();
+    });
 });
 
 
