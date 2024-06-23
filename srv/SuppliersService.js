@@ -38,7 +38,7 @@ async function GetSupplier(req) {
 
         if(req.query.SELECT.one){
             var id = req.query.SELECT.from.ref[0].where[2].val;
-            filter = { _id: new ObjectId(id) };
+            filter = { _id: ObjectId.createFromHexString(id) };
         }
 
         const results = await collectionSuppliers
