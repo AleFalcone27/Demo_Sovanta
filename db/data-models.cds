@@ -1,8 +1,9 @@
-using { cuid, managed } from '@sap/cds/common';
-
+using { managed } from '@sap/cds/common';
+// cuid
 namespace demo.db;
 
-entity supplier : cuid, managed {
+entity supplier : managed {
+    key id: String;
     name: String(250);
     email: String(250);
     contactNo: String(250);
