@@ -1,12 +1,12 @@
 using { cuid, managed } from '@sap/cds/common';
 
-namespace demo;
+namespace demo.db;
 
-entity Suppliers : cuid, managed {
+entity supplier : cuid, managed {
     name: String(250);
     email: String(250);
     contactNo: String(250);
-    adress: String(250);
-    ProductCategory: String(250);
+    address: String(250);
+    productCategory: String(250);
 }
 
