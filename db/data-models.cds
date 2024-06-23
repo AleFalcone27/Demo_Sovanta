@@ -1,6 +1,6 @@
 using { cuid, managed } from '@sap/cds/common';
 
-namespace demo.db;
+namespace demo;
 
 entity Suppliers : cuid, managed {
     name: String(250);
