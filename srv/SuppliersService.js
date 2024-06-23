@@ -27,19 +27,22 @@ async function CreateSupplier(req){
 }
 
 
-async function GetSupplier(req){
+async function GetSupplier(req) {
     try {
-        await client.connect();
-        const db = await client.db(db_name);
-        const collectionSuppliers = await db.collection('suppliers');
-        const results = await collectionSuppliers.find(filter).toArray();
-        return results;
+        await client.connect();  
+        const db = await client.db(db_name);  
+        const collectionSuppliers = db.collection('suppliers'); 
+
+        const results = await collectionSuppliers
+            .find()
+            .toArray();
+        return results;  
 
     } catch (error) {
-        console.error('Error al obtener los proveedores:', error);
-        req.error(500, 'Failed to get suppliers');
-    }finally {
-    await client.close();
+        console.error('Error al obtener proveedores:', error);
+        throw new Error('Failed to fetch suppliers');
+    } finally {
+        await client.close(); 
     }
 }
 
