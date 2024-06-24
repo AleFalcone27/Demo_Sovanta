@@ -9,14 +9,13 @@ const client = new MongoClient(uri);
 async function CreateSupplier(req) {
     try {
         await client.connect();
-        const db = await client.db(db_name);
-        const suppliers = await db.collection('suppliers');
-        const result = await suppliers.insertOne(req.data);
+        const db = client.db(db_name);
+        const suppliers = db.collection('suppliers');
+        const result = suppliers.insertOne(req.data);
 
         if (result.insertedId) {
             req.data.id = result.insertedId;
         }
-
         return req.data;
 
     } catch (error) {
@@ -31,7 +30,7 @@ async function CreateSupplier(req) {
 async function GetSupplier(req) {
     try {
         await client.connect();
-        const db = await client.db(db_name);
+        const db = client.db(db_name);
         const collectionSuppliers = db.collection('suppliers');
 
         var filter;
@@ -91,7 +90,8 @@ async function UpdateSupplier(req) {
         const db = client.db(db_name);
         const collection = db.collection('suppliers');
         var data = req.data
-        var id = new ObjectId.createFromHexString(data.id);
+        var id = ObjectId.createFromHexString(data.id)
+        console.log(id);
         delete data.id;
 
         const results = await collection.updateOne(
