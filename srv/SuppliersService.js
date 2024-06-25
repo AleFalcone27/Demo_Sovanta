@@ -33,10 +33,10 @@ async function GetSupplier(req) {
         const db = client.db(db_name);
         const collectionSuppliers = db.collection('suppliers');
 
-        var filter;
+        let filter;
 
         if(req.query.SELECT.one){
-            var id = req.query.SELECT.from.ref[0].where[2].val;
+            let id = req.query.SELECT.from.ref[0].where[2].val;
             filter = { _id: ObjectId.createFromHexString(id) };
         }
 
@@ -89,8 +89,8 @@ async function UpdateSupplier(req) {
         await client.connect();
         const db = client.db(db_name);
         const collection = db.collection('suppliers');
-        var data = req.data
-        var id = ObjectId.createFromHexString(data.id)
+        let data = req.data
+        let id = ObjectId.createFromHexString(data.id)
         console.log(id);
         delete data.id;
 
@@ -120,8 +120,8 @@ async function DeleteSupplier(req){
     await client.connect();
     const db = client.db(db_name);
     const collection = db.collection('suppliers');
-    var data = req.data
-    var id = ObjectId.createFromHexString(data.id)
+    let data = req.data
+    let id = ObjectId.createFromHexString(data.id)
     const result = await collection.deleteOne({_id:id})
     return result;
 }
